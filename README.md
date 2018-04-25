@@ -2,7 +2,7 @@
 Shell script to install an [Heldcoin Masternode](http://heldcoin.xyz/) on a Linux server running Ubuntu 16.04. Use it on your own risk.  
 ***
 
-## Installation for version 1.0.4
+## Installation for version 1.0.0.0
 ```
 wget -q https://raw.githubusercontent.com/Realbityoda/Heldcoin/master/heldcoin_install.sh
 bash heldcoin_install.sh
