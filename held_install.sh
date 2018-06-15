@@ -7,7 +7,7 @@ COIN_DAEMON='heldcoind'
 COIN_CLI='heldcoind'
 COIN_PATH='/usr/local/bin/'
 COIN_REPO='https://github.com/heldcoindev/HeldCoin.git'
-COIN_TGZ='https://github.com/heldcoindev/daemon-ubuntu-16.04-/blob/master/daemon%201.0.3.zipp'
+COIN_TGZ='https://github.com/heldcoindev/daemon-ubuntu-16.04-/blob/master/daemon%201.0.3.zip'
 COIN_ZIP=$(echo $COIN_TGZ | awk -F'/' '{print $NF}')
 COIN_NAME='HeldCoin'
 COIN_PORT=45524
@@ -27,15 +27,18 @@ MAG='\e[1;35m'
 purgeOldInstallation() {
     echo -e "${GREEN}Searching and removing old $COIN_NAME files and configurations${NC}"
     #kill wallet daemon
-	sudo killall heldcoind > /dev/null 2>&1
+    systemctl stop $COIN_NAME.service > /dev/null 2>&1
+    sudo killall $COIN_DAEMON > /dev/null 2>&1
     #remove old ufw port allow
-    sudo ufw delete allow 45524/tcp > /dev/null 2>&1
+    sudo ufw delete allow $COIN_PORT/tcp > /dev/null 2>&1
     #remove old files
-    if [ -d "~/.HeldCoin" ]; then
-        sudo rm -rf ~/.HeldCoin > /dev/null 2>&1
-    fi
-    #remove binaries and HeldCoin utilities
-    cd /usr/local/bin && sudo rm heldcoin-cli heldcoin-tx heldcoind > /dev/null 2>&1 && cd
+	rm rm -- "$0" > /dev/null 2>&1
+	rm /root/$CONFIGFOLDER/bootstrap.dat.old > /dev/null 2>&1
+	cd /usr/local/bin && sudo rm $COIN_CLI $COIN_DAEMON > /dev/null 2>&1 && cd
+    cd /usr/bin && sudo rm $COIN_CLI $COIN_DAEMON > /dev/null 2>&1 && cd
+        sudo rm -rf ~/$CONFIGFOLDER > /dev/null 2>&1
+    #remove binaries and $COIN_NAME utilities
+    cd /usr/local/bin && sudo rm $COIN_CLI $COIN_DAEMON > /dev/null 2>&1 && cd
     echo -e "${GREEN}* Done${NONE}";
 }
 
@@ -259,16 +262,14 @@ clear
 function important_information() {
  echo
  echo -e "${BLUE}================================================================================================================================${NC}"
- echo -e "${PURPLE}Windows Wallet Guide. https://github.com/Realbityoda/Held/blob/master/README.md${NC}"
+ echo -e "${PURPLE}Windows Wallet Guide. https://github.com/Heldcoin/master/README.md${NC}"
  echo -e "${BLUE}================================================================================================================================${NC}"
- echo -e "$COIN_NAME Masternode is up and running listening on port ${GREEN}$COIN_PORT${NC}."
- echo -e "Configuration file is: ${RED}$CONFIGFOLDER/$CONFIG_FILE${NC}"
- echo -e "Start: ${RED}systemctl start $COIN_NAME.service${NC}"
- echo -e "Stop: ${RED}systemctl stop $COIN_NAME.service${NC}"
- echo -e "VPS_IP:PORT ${GREEN}$NODEIP:$COIN_PORT${NC}"
- echo -e "MASTERNODE GENKEY is: ${RED}$COINKEY${NC}"
- echo -e "Please check ${RED}$COIN_NAME${NC} is running with the following command: ${RED}systemctl status $COIN_NAME.service${NC}"
- echo -e "Use ${RED}$COIN_CLI masternode status${NC} to check your MN."
+ echo -e "${GREEN}$COIN_NAME Masternode is up and running listening on port${NC}${PURPLE}$COIN_PORT${NC}."
+ echo -e "${GREEN}Configuration file is:${NC}${RED}$CONFIGFOLDER/$CONFIG_FILE${NC}"
+ echo -e "${GREEN}Start:${NC}${RED}systemctl start $COIN_NAME.service${NC}"
+ echo -e "${GREEN}Stop:${NC}${RED}systemctl stop $COIN_NAME.service${NC}"
+ echo -e "${GREEN}VPS_IP:PORT${NC}${GREEN}$NODEIP:$COIN_PORT${NC}"
+ echo -e "${GREEN}MASTERNODE GENKEY is:${NC}${PURPLE}$COINKEY${NC}"
  if [[ -n $SENTINEL_REPO  ]]; then
  echo -e "${RED}Sentinel${NC} is installed in ${RED}/root/sentinel_$COIN_NAME${NC}"
  echo -e "Sentinel logs is: ${RED}$CONFIGFOLDER/sentinel.log${NC}"
@@ -276,11 +277,15 @@ function important_information() {
  echo -e "${BLUE}================================================================================================================================"
  echo -e "${CYAN}Follow twitter to stay updated.  https://twitter.com/Real_Bit_Yoda${NC}"
  echo -e "${BLUE}================================================================================================================================${NC}"
- echo -e "${GREEN}Donations accepted but never required.${NC}"
+ echo -e "${CYAN}Ensure Node is fully SYNCED with BLOCKCHAIN.${NC}"
  echo -e "${BLUE}================================================================================================================================${NC}"
- echo -e "${YELLOW}BCH: qzgnck23pwfag8ucz2f0vf0j5skshtuql5hmwwjhds"
- echo -e "${YELLOW}ETH: 0x765eA1753A1eB7b12500499405e811f4d5164554"
- echo -e "${YELLOW}LTC: LNt9EQputZK8djTSZyR3jE72o7NXNrb4aB${NC}"
+ echo -e "${GREEN}Usage Commands.${NC}"
+ echo -e "${GREEN}heldcoind masternode status${NC}"
+ echo -e "${GREEN}heldcoind getinfo.${NC}"
+ echo -e "${BLUE}================================================================================================================================${NC}"
+ echo -e "${RED}Donations always accepted gratefully.${NC}"
+ echo -e "${BLUE}================================================================================================================================${NC}"
+ echo -e "${YELLOW}HLDC: HCwVFCXR7wdJyjEEKqhtDMYYp6pQ82UnNy${NC}"
  echo -e "${BLUE}================================================================================================================================${NC}"
 }
 
