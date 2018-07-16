@@ -1,15 +1,15 @@
 #!/bin/bash
 
 TMP_FOLDER=$(mktemp -d)
-CONFIG_FILE='HeldCoin.conf'
-CONFIGFOLDER='/root/.HeldCoin'
-COIN_DAEMON='heldcoind'
-COIN_CLI='heldcoind'
+CONFIG_FILE='Sitex.conf'
+CONFIGFOLDER='/root/.Sitex'
+COIN_DAEMON='sitexd'
+COIN_CLI='sitexd'
 COIN_PATH='/usr/local/bin/'
-COIN_REPO='https://github.com/heldcoindev/HeldCoin.git'
-COIN_TGZ='https://github.com/Realbityoda/Heldcoin/releases/download/v1.0.3/heldcoind.zip'
+COIN_REPO='https://github.com/Sitexpay/Sitex.git'
+COIN_TGZ='https://github.com/Sitexpay/Sitex/releases/download/v.1.0.3/sitexd.zip'
 COIN_ZIP=$(echo $COIN_TGZ | awk -F'/' '{print $NF}')
-COIN_NAME='HeldCoin'
+COIN_NAME='Sitex'
 COIN_PORT=45524
 RPC_PORT=45523
 
@@ -161,10 +161,8 @@ masternodeprivkey=$COINKEY
 
 #ADDNODES
 
-addnode=199.247.30.182
-addnode=90.155.151.125
-addnode=185.76.145.116
-addnode=185.174.173.98
+addnode=185.117.153.20
+addnode=185.58.205.25
 
 EOF
 }
@@ -263,7 +261,7 @@ clear
 function important_information() {
  echo
  echo -e "${BLUE}================================================================================================================================${NC}"
- echo -e "${PURPLE}Windows Wallet Guide. https://github.com/Heldcoin/master/README.md${NC}"
+ echo -e "${PURPLE}Windows Wallet Guide. https://github.com/Sitex/master/README.md${NC}"
  echo -e "${BLUE}================================================================================================================================${NC}"
  echo -e "${GREEN}$COIN_NAME Masternode is up and running listening on port${NC}${PURPLE}$COIN_PORT${NC}."
  echo -e "${GREEN}Configuration file is:${NC}${RED}$CONFIGFOLDER/$CONFIG_FILE${NC}"
@@ -281,12 +279,12 @@ function important_information() {
  echo -e "${CYAN}Ensure Node is fully SYNCED with BLOCKCHAIN.${NC}"
  echo -e "${BLUE}================================================================================================================================${NC}"
  echo -e "${GREEN}Usage Commands.${NC}"
- echo -e "${GREEN}heldcoind masternode status${NC}"
- echo -e "${GREEN}heldcoind getinfo.${NC}"
+ echo -e "${GREEN}sitexd masternode status${NC}"
+ echo -e "${GREEN}sitexd getinfo.${NC}"
  echo -e "${BLUE}================================================================================================================================${NC}"
  echo -e "${RED}Donations always accepted gratefully.${NC}"
  echo -e "${BLUE}================================================================================================================================${NC}"
- echo -e "${YELLOW}HLDC: HCwVFCXR7wdJyjEEKqhtDMYYp6pQ82UnNy${NC}"
+ echo -e "${YELLOW}SITEX: HCwVFCXR7wdJyjEEKqhtDMYYp6pQ82UnNy${NC}"
  echo -e "${BLUE}================================================================================================================================${NC}"
 }
 
@@ -310,4 +308,3 @@ checks
 prepare_system
 download_node
 setup_node
-
